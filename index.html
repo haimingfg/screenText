@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>屏幕测试</title>
+		<script type="text/javascript"
+			src="js/lib/kissy-1.2.0.js"></script>
+			<script type="text/javascript"
+				src="js/screenTest.js"></script>
+			<style>
+				body{
+					margin: 0;
+					padding: 0;
+				}
+			</style>
+	</head>
+	<body>
+		<script>
+			var screen = new screenTest();
+			<!--screen.changeColor('#000');-->
+			//setTimeout(function(){screen.changeColor('#ccc')},
+			//2000);
+			//screen.loopCC(['#000', '#ccc', '#ab12c3',
+			//'#6ca5901', '#990245'], 5000);
+			screen.grayscale(0);
+		</script>
+	</body>
+</html>
