@@ -3,7 +3,7 @@
  */
 
 var screenTest = function(){
-	this.screen =  document.getElementsByTagName('body')[0];
+	this.screen 		= document.getElementsByTagName('body')[0];
 
 	this.loopCC = function (arrColor, sec) {
 		var obj = this;
@@ -24,7 +24,7 @@ var screenTest = function(){
 		this.screen.style.backgroundColor = colorCode;
 	};
 
-	this.grayscale = function(startIndex) {
+	this.doGrayscale = function(startIndex){
 		var startCC = startIndex ? startIndex : 0;
 		// 屏幕分割多少个阶度
 		var scaleCount = 16 - startCC;
@@ -35,7 +35,7 @@ var screenTest = function(){
 		var screenWidth = this.screenWidth();
 
 		// 每个阶度长度
-		var scaleWidth = screenWidth / scaleCount - 1;
+		var scaleWidth = screenWidth / scaleCount ;
 		// 循环灰阶
 		var grayColor = startCC;
 		
@@ -43,6 +43,19 @@ var screenTest = function(){
 			var hexColor = grayColor.toString(16);
 			this.grayDIV(scaleWidth, screenHeight, hexColor + hexColor + hexColor);
 			grayColor += 1;
+		}
+
+	};
+	this.grayscale = function(startIndex) {
+		var that = this;
+		window.onresize = function(){
+			while(that.screen.hasChildNodes()){
+				that.screen.removeChild(that.screen.lastChild);
+			}
+			that.doGrayscale(startIndex);
+		}
+		window.onload = function (){
+			that.doGrayscale(startIndex);
 		}
 	};
 
@@ -55,11 +68,12 @@ var screenTest = function(){
 	};
 
 	this.screenWidth = function () {
-		if ( typeof( window.innerWidth ) == 'number' ) {
-			return window.innerWidth;
-		} else {
-			return document.documentElement.clientWidth;
-		}
+		/*if ( typeof( window.innerWidth ) == 'number' ) {*/
+		/*return window.innerWidth;*/
+		/*} else {*/
+		/*return document.documentElement.clientWidth;*/
+		/*}*/
+		return this.screen.offsetWidth || 0;
 	};
 
 	this.grayDIV = function (width, height, color) {
