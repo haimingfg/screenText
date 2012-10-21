@@ -25,10 +25,8 @@ var screenTest = function(){
 	};
 
 	this.doGrayscale = function(startIndex){
-		var startCC = startIndex ? startIndex : 0;
-		// 屏幕分割多少个阶度
-		var scaleCount = 16 - startCC;
 
+		var scaleCount = this.getScaleCount(startIndex);
 		// 获取屏幕高度
 		var screenHeight = this.screenHeight();
 
@@ -37,7 +35,7 @@ var screenTest = function(){
 		// 每个阶度长度
 		var scaleWidth = screenWidth / scaleCount ;
 		// 循环灰阶
-		var grayColor = startCC;
+		var grayColor = 16 - scaleCount;
 		
 		for ( ; scaleCount > 0; --scaleCount ) {
 			var hexColor = grayColor.toString(16);
@@ -46,13 +44,25 @@ var screenTest = function(){
 		}
 
 	};
+	
+	this.getScaleCount = function(startIndex){
+		var startCC = 0 >= startIndex || startIndex > 16 ?  0 : startIndex;
+		// 屏幕分割多少个阶度
+		return 16 - startCC;
+	};
+
 	this.grayscale = function(startIndex) {
 		var that = this;
 		window.onresize = function(){
-			while(that.screen.hasChildNodes()){
-				that.screen.removeChild(that.screen.lastChild);
+			var currentWidth = that.screenWidth() / that.getScaleCount(startIndex);
+			var currentHeight = that.screenHeight();
+			var kids = that.screen.childNodes.length;
+			for ( var i = 0; i < kids; ++i ) {
+				if ( that.screen.childNodes[i].nodeType != 3 ) {
+					that.screen.childNodes[i].style.width = currentWidth + 'px';
+					that.screen.childNodes[i].style.height = currentHeight + 'px';
+				}
 			}
-			that.doGrayscale(startIndex);
 		}
 		window.onload = function (){
 			that.doGrayscale(startIndex);
