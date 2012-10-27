@@ -95,8 +95,34 @@ var screenTest = function(){
 		style.push('float:left;');
 		style.push('color:#fff');
 		divEle.setAttribute('style', style.join(';'));
-		divEle.appendChild(document.createTextNode(color));
+		divEle.appendChild(document.createTextNode(color.toString(10)));
 		/*divEle.style.backgroundColor = '#' + color.toString(16);*/
 		this.screen.appendChild(divEle);
 	};
+
+	// 正方形灰阶
+	this.squareGray = function (){
+		//先把屏幕黑色
+		this.screen.style.backgroundColor = '#000';
+		var divWidth 	= this.screenWidth() / 16;
+		var marginWidth = divWidth *  0.05;
+		divWidth = divWidth - marginWidth;
+		var divHeight 	= divWidth;
+		// 循环000-255 十进制
+		for(var i = 0; i < 255; ++i){
+			var hexColor = i.toString(16);
+			if ( 1 < hexColor.length ) {
+				hexColor = hexColor + hexColor + hexColor;
+			} else {
+				hexColor = '0' + hexColor + '0' + hexColor + '0' + hexColor;
+			}
+			var divEle = document.createElement('div');
+			divEle.style.backgroundColor 	= '#' + hexColor;
+			divEle.style.width 		= divWidth + 'px';
+			divEle.style.height		= divHeight + 'px';
+			divEle.style.float		= 'left';
+			divEle.style.margin		= marginWidth + 'px';
+			this.screen.appendChild(divEle);
+		}
+	}
 }
