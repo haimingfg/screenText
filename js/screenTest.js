@@ -104,24 +104,30 @@ var screenTest = function(){
 	this.squareGray = function (){
 		//先把屏幕黑色
 		this.screen.style.backgroundColor = '#000';
-		var divWidth 	= this.screenWidth() / 16;
-		var marginWidth = divWidth *  0.05;
-		divWidth = divWidth - marginWidth;
-		var divHeight 	= divWidth;
-		// 循环000-255 十进制
-		for(var i = 0; i < 255; ++i){
+	
+		var divWidth = this.screenWidth() / 16;
+		var divHeight = this.screenHeight() / 16;
+		
+		/*// 循环000-255 十进制*/
+		for(var i = 0; i < 256; ++i){
 			var hexColor = i.toString(16);
 			if ( 1 < hexColor.length ) {
 				hexColor = hexColor + hexColor + hexColor;
 			} else {
 				hexColor = '0' + hexColor + '0' + hexColor + '0' + hexColor;
 			}
+
 			var divEle = document.createElement('div');
+			var bordSize = 6;	
+			divEle.style.border = '#000 solid '+ bordSize +'px';
+
+
 			divEle.style.backgroundColor 	= '#' + hexColor;
-			divEle.style.width 		= divWidth + 'px';
-			divEle.style.height		= divHeight + 'px';
+			divEle.style.width 		= (divWidth - 2 * bordSize) + 'px';
+			divEle.style.height		= (divHeight - 2 * bordSize ) + 'px';
 			divEle.style.float		= 'left';
-			divEle.style.margin		= marginWidth + 'px';
+			/*divEle.style.margin		=  marginHeight + 'px ' + marginWidth + 'px';*/
+			/*divEle.appendChild(document.createTextNode(i));*/
 			this.screen.appendChild(divEle);
 		}
 	}
